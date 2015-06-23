@@ -1,7 +1,7 @@
 defmodule OpenRoad.StreetTest do
   use ExUnit.Case
 
-  test "start_link/1 starts the agent" do
+  test "start_link/2 starts the agent" do
     assert {:ok, _} = OpenRoad.Street.start_link("bob", :menaul_wyoming)
   end
 
