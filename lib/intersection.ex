@@ -53,7 +53,7 @@ defmodule OpenRoad.Intersection do
       true ->
         {new, [nodes: updated_nodes]}
       false ->
-        {[:error, :ambiguous_intersection, updated_nodes], [nodes: old]}
+        {[:error, :ambiguous_node, updated_nodes], [nodes: old]}
     end
   end
 end
