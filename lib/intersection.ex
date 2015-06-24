@@ -1,4 +1,31 @@
 defmodule OpenRoad.Intersection do
+  @moduledoc """
+  The Intersection Module is responsible for an actual interscection.  It provides
+  behavior for creating an intersection instance, adding roads to an intersection.
+
+  The Intersection Module has two state attributes:
+
+  * `nodes` these are collections of streets which form a logical 'edge' or 'path'
+  through an intersection.  The lights for all the streets in a node should be
+  green or red at the same time.  Consequently the lights for all other nodes
+  should be red.
+  * `traffic_engine` the traffic engine attribute stores a copy of the logic
+  settings for intersection behavior.
+
+  ## Node
+
+  #### There is one function responsible for adding roads to an intersection.
+
+  __add_road__ is responsible for adding roads to an intersection.
+
+  `add_road/3` -- takes the intersection to be modified, the identifier of the road
+  to be added and a full or partial identifier for the node to which the road
+  should be added.
+
+  `add_road/2` -- takes the intersection to be modified, and the identifier of the
+  road to be added.  The new road will be added as the sole member of a new node.
+  """
+
   def start_link(name, roads) do
     Agent.start_link(__MODULE__, :initialize, [roads], name: name)
   end
@@ -7,6 +34,13 @@ defmodule OpenRoad.Intersection do
     [nodes: roads]
   end
 
+  @doc """
+  takes an intersection process identifier, a road process identifier, and
+  optionally a full or partial node identifier.
+
+  returns the new node map on success or {:error, :ambiguous_node, node_list} if
+  the given node identifier is not unique in the existing set of nodes.
+  """
   def add_road(intersection, road, node) do
     Agent.get_and_update(intersection, __MODULE__, :new_road, [road, node])
   end
