@@ -26,12 +26,12 @@ defmodule OpenRoad.Intersection do
   road to be added.  The new road will be added as the sole member of a new node.
   """
 
-  def start_link(name, roads) do
-    Agent.start_link(__MODULE__, :initialize, [roads], name: name)
+  def start_link(name, roads, warden) do
+    Agent.start_link(__MODULE__, :initialize, [roads, warden], name: name)
   end
 
-  def initialize(roads) do
-    [nodes: roads]
+  def initialize(roads, warden) do
+    [nodes: roads, warden: warden]
   end
 
   @doc """
@@ -49,12 +49,12 @@ defmodule OpenRoad.Intersection do
   end
 
   def new_road(current_state, road, []) do
-    [nodes: nodes] = current_state
+    [nodes: nodes, warden: warden] = current_state
 
-    {nodes ++ [road], [nodes: nodes ++ [road]]}
+    {nodes ++ [road], [nodes: nodes ++ [road], warden: warden]}
   end
   def new_road(current_state, road, node) do
-    [nodes: nodes] = current_state
+    [nodes: nodes, warden: warden] = current_state
 
     # TODO: Refactor this horrible mess.
     updated_nodes = Enum.map nodes, fn current_node ->
@@ -70,7 +70,8 @@ defmodule OpenRoad.Intersection do
       end
     end
 
-    insert_road? nodes, updated_nodes
+    {result, [nodes: processed_nodes]} = insert_road?(nodes, updated_nodes)
+    {result, [nodes: processed_nodes, warden: warden]}
   end
 
   def insert_road?(old, new) do
