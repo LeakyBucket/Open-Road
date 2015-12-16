@@ -4,7 +4,7 @@ defmodule OpenRoad.Mixfile do
   def project do
     [app: :open_road,
      version: "0.0.1",
-     elixir: "~> 1.0.0",
+     elixir: "~> 1.1.1",
      deps: deps]
   end
 
@@ -25,6 +25,8 @@ defmodule OpenRoad.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    []
+    [
+      {:elixir_tea, "1.0.0"}
+    ]
   end
 end
