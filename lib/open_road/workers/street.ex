@@ -1,4 +1,4 @@
-defmodule OpenRoad.Street do
+defmodule OpenRoad.Workers.Street do
   @moduledoc """
   The Street Module maintains the current state for a road leading into an intersection.
   It has a bit of a hybrid API, there are functions intended for the Intersection to which

@@ -1,4 +1,4 @@
-defmodule OpenRoad.Intersection do
+defmodule OpenRoad.Workers.Intersection do
   @moduledoc """
   The Intersection Module is responsible for an actual interscection.  It provides
   behavior for creating an intersection instance, adding roads to an intersection.
