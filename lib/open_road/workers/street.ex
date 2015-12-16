@@ -95,13 +95,13 @@ defmodule OpenRoad.Workers.Street do
         traffic |> Enum.map fn level ->
                               case level do
                                 {^depth, seen} ->
-                                 {depth, seen ++ [:erlang.now]}
+                                 {depth, seen ++ [:erlang.unique_integer([:monotonic])]}
                                  _ ->
                                    level
                                end
                              end
       false ->
-        traffic ++ [{depth, [:erlang.now]}]
+        traffic ++ [{depth, [:erlang.unique_integer([:monotonic])]}]
     end
 
     [feeders: feeders, intersection: intersection, traffic: traffic]
